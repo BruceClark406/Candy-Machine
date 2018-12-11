@@ -89,8 +89,6 @@ def getDistance():
 
 
 def candy():
-    #trigger the servo once and the use then distance sensor 
-    moveServo()
     # present time + 10 seconds
     timeout = time.time() + 10
     while True:
@@ -124,13 +122,11 @@ def main():
         
             if i == 0:
                 print("No candy for you fat lard!")
-            elif i == 1 and getDistance():
+            elif i == 1:
                 print("CANDY!")
                 candy()
                 
-##            elif i !=1 and i != 0:
-##                print("no sensor detected")
-##                break
+
         
     except KeyboardInterrupt:
         GPIO.cleanup()

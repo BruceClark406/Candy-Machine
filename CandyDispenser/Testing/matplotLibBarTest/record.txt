@@ -6,3 +6,17 @@ Date: 11/02/2018 Friday Time: 10:02:09 AM Number: 23
 Date: 11/02/2018 Friday Time: 10:48:51 AM Number: 12
 Date: 11/02/2018 Friday Time: 10:51:56 AM Number: 12
 Date: 11/02/2018 Friday Time: 10:54:50 AM Number: 25
+Date: 11/02/2018 Friday Time: 11:07:58 AM Number: 24
+Date: 11/02/2018 Friday Time: 11:35:41 AM Number: 14
+Date: 11/12/2018 Monday Time: 09:07:02 PM Number: 12
+Date: 11/12/2018 Monday Time: 09:07:04 PM Number: 3
+Date: 11/12/2018 Monday Time: 09:07:06 PM Number: 6
+Date: 11/12/2018 Monday Time: 09:07:11 PM Number: 11
+Date: 11/12/2018 Monday Time: 09:07:14 PM Number: 7
+Date: 11/12/2018 Monday Time: 09:07:15 PM Number: 8
+Date: 11/12/2018 Monday Time: 09:07:17 PM Number: 6
+Date: 11/14/2018 Wednesday Time: 02:25:52 PM Number: 13
+Date: 11/14/2018 Wednesday Time: 02:25:53 PM Number: 3
+Date: 11/14/2018 Wednesday Time: 02:25:57 PM Number: 9
+Date: 11/14/2018 Wednesday Time: 10:05:55 PM Number: 30
+Date: 11/14/2018 Wednesday Time: 10:06:06 PM Number: 40

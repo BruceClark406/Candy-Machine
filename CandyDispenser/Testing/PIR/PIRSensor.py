@@ -1,3 +1,5 @@
+##tests the pir Sensor on GPIO pin 17
+
 import RPi.GPIO as GPIO
 import time
 
@@ -6,12 +8,12 @@ import time
 
 GPIO.setwarnings(False)
 GPIO.setmode(GPIO.BCM)
-#GPIO.setup(17, GPIO.OUT)
 GPIO.setup(17, GPIO.IN)
 
 
 try:
-    time.sleep(2)
+    
+    time.sleep(1)
     while True:
         i = GPIO.input(17)
         if i == 0:
