@@ -15,10 +15,12 @@ PIR = 17
 #Distance Sensor
 TRIG = 5
 ECHO = 16
-TRIGGERDISTANCE = 8
+TRIGGERDISTANCE = 6
 #Load Cell
 DT = 6
 SCH = 13
+#LED
+LED = 25
 
 
 
@@ -28,6 +30,7 @@ GPIO.setmode(GPIO.BCM)
 GPIO.setup(PIR, GPIO.IN)
 GPIO.setup(TRIG, GPIO.OUT)
 GPIO.setup(ECHO, GPIO.IN)
+GPIO.setup(LED, GPIO.OUT)
 
 
 def cleanAndExit():
@@ -45,7 +48,7 @@ def setUpLoad():
     # and I got numbers around 184000 when I added 2kg. So, according to the rule of thirds:
     # If 2000 grams is 184000 then 1000 grams is 184000 / 2000 = 92.
     #hx.set_reference_unit(1)
-    hx.set_reference_unit(418)
+    hx.set_reference_unit(270.718)
 
     #sensore off and then back on again
     hx.reset()
@@ -74,7 +77,7 @@ def popUpNotification(calories):
 
 def recordAction(startW, stopW, candyInst):
     weight = startW - stopW
-    if weight < 1:
+    if weight < 3:
         return
 
     ratio = candyInst.getCandySelectedRatio()
@@ -126,6 +129,13 @@ def moveServo():
     
     time.sleep(2)
 
+def turnLightOn():
+    GPIO.output(LED, GPIO.HIGH)
+    
+def turnLightOff():
+    GPIO.output(LED, GPIO.LOW)
+
+
 def getDistance():
     #time.sleep(.0001)
     GPIO.output(TRIG, True)
@@ -171,10 +181,11 @@ def selectCandy():
     return candyInstance
 
 def candy(hx, candyInst):
+    turnLightOn()
     weightStart = getWeight(hx)
     
-    # present time + 10 seconds
-    timeout = time.time() + 10
+    # present time + 15 seconds
+    timeout = time.time() + 15
     while True:
         
         #if we have reached time out
@@ -194,17 +205,19 @@ def candy(hx, candyInst):
     
     #time to make sure it is not activated twice
     time.sleep(1)
+    turnLightOff()
     
 
     
 
 def main():
-
+    #asks user what candy is in machine and record it
     candyInst = selectCandy()
     
-    #set up distance sensor
+    #set up load cell
     hx = setUpLoad()
 
+    #initias visual
     setUpBar()
     
     try:
