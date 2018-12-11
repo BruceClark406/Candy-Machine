@@ -21,6 +21,9 @@ DT = 6
 SCH = 13
 #LED
 LED = 25
+#SERVO POSITIONS (PWM)
+CLOSED = 7.5
+OPEN = 11
 
 
 
@@ -38,17 +41,16 @@ def cleanAndExit():
     sys.exit()
 
 def setUpLoad():
-    #takes the two pins we are using (DT, SCH) Labeled on Board
+    #takes the two pins we are using (DT, SCH) 
     hx = HX711(DT, SCH)
     hx.set_reading_format("LSB", "MSB")
     
     # HOW TO CALCULATE THE REFFERENCE UNIT
-    # To set the reference unit to 1. Put 1kg on your sensor or anything you have and know exactly how much it weights.
-    # In this case, 92 is 1 gram because, with 1 as a reference unit I got numbers near 0 without any weight
-    # and I got numbers around 184000 when I added 2kg. So, according to the rule of thirds:
-    # If 2000 grams is 184000 then 1000 grams is 184000 / 2000 = 92.
-    #hx.set_reference_unit(1)
-    hx.set_reference_unit(270.718)
+    # Set reference unit to 1 below and run the program
+    #record the average output with nothing on the LOAD CELL (PREOUT) and then put a known weight (ACTUALWEIGHT) on the load cell and record the number(POSTOUT)
+    #then stop the porgram and change the ref number below to (POSTOUT-PREOUT)/ACTUALWEIGHT
+    # EX: (6683-0)/16 = 417.6875
+    hx.set_reference_unit(417.6875)
 
     #sensore off and then back on again
     hx.reset()
@@ -77,6 +79,7 @@ def popUpNotification(calories):
 
 def recordAction(startW, stopW, candyInst):
     weight = startW - stopW
+    #if weight has not changed, stop
     if weight < 3:
         return
 
@@ -92,6 +95,8 @@ def recordAction(startW, stopW, candyInst):
     f.write("Date: " + time.strftime("%m/%d/%Y %A ") + "Time: "+
             time.strftime("%I:%M:%S %p ") + "Calories: " + calories + "\n")
     f.close()
+    #change the bar graph
+    animate()
 
 def moveServoDefault():
     #making sure candy is not continually falling out of the machine
@@ -101,8 +106,8 @@ def moveServoDefault():
     #set pin four to Pulse Width Modulation with 50hz frequency
     p = GPIO.PWM(SERVO,50)
     
-    p.start(4.5)
-    p.ChangeDutyCycle(4.5)
+    p.start(CLOSED)
+    p.ChangeDutyCycle(CLOSED)
                                 
     time.sleep(2)
     p.stop()
@@ -118,12 +123,12 @@ def moveServo():
     #2.5 and 12.5 are the extremes
     #must give the srevo enough time to fully rotate
     
-    p.start(9.5)
+    p.start(OPEN)
     
-    p.ChangeDutyCycle(9.5)
+    p.ChangeDutyCycle(OPEN)
     time.sleep(.4)
 
-    p.ChangeDutyCycle(4.5)
+    p.ChangeDutyCycle(CLOSED)
     time.sleep(.4)
     p.stop()
     
@@ -199,8 +204,7 @@ def candy(hx, candyInst):
             stopWeight = getWeight(hx)
             #record the number of calories in the file, send alert
             recordAction(weightStart, stopWeight, candyInst)
-            #change the bar graph
-            animate()
+            
             
     
     #time to make sure it is not activated twice

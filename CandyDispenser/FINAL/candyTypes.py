@@ -3,7 +3,7 @@ class CandySelection:
     
     
     def __init__(self):
-        self.CANDY = {"M&Ms": 1.05129, "Chocolate Almonds": .952}
+        self.CANDY = {"M&Ms": .2, "Chocolate Almonds": .1875}
         self.candySelectedRatio = 1
         self.candySelected = "No Candy Selected"
         

@@ -1,3 +1,6 @@
+#this is not the property of Bruce Clark
+#this code is taken and slightly modified from a HX711 Libaray online
+
 import RPi.GPIO as GPIO
 import time
 import numpy  # sudo apt-get python-numpy

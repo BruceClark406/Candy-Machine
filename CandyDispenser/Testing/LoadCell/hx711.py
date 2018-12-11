@@ -2,6 +2,9 @@ import RPi.GPIO as GPIO
 import time
 import numpy  # sudo apt-get python-numpy
 
+#this is not the property of Bruce Clark
+#this code is taken and slightly modified from a HX711 Libaray online
+
 class HX711:
     def __init__(self, dout, pd_sck, gain=128):
         self.PD_SCK = pd_sck
