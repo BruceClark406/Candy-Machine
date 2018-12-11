@@ -1,0 +1,8 @@
+Date: 11/01/2018 Thursday Time: 11:20:11 PM Number: 15
+Date: 11/01/2018 Thursday Time: 11:20:14 PM Number: 14
+Date: 11/01/2018 Thursday Time: 11:20:17 PM Number: 16
+Date: 11/01/2018 Thursday Time: 11:20:20 PM Number: 17
+Date: 11/02/2018 Friday Time: 10:02:09 AM Number: 23
+Date: 11/02/2018 Friday Time: 10:48:51 AM Number: 12
+Date: 11/02/2018 Friday Time: 10:51:56 AM Number: 12
+Date: 11/02/2018 Friday Time: 10:54:50 AM Number: 25
