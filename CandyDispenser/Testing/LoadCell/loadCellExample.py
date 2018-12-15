@@ -19,7 +19,7 @@ hx.set_reading_format("LSB", "MSB")
     #record the average output with nothing on the LOAD CELL (PREOUT) and then put a known weight (ACTUALWEIGHT) on the load cell and record the number(POSTOUT)
     #then stop the porgram and change the ref number below to (POSTOUT-PREOUT)/ACTUALWEIGHT
     # EX: (6683-0)/16 = 417.6875
-    hx.set_reference_unit(417.6875)
+hx.set_reference_unit(418.8322)
 
 hx.reset()
 hx.tare()

@@ -50,7 +50,7 @@ def setUpLoad():
     #record the average output with nothing on the LOAD CELL (PREOUT) and then put a known weight (ACTUALWEIGHT) on the load cell and record the number(POSTOUT)
     #then stop the porgram and change the ref number below to (POSTOUT-PREOUT)/ACTUALWEIGHT
     # EX: (6683-0)/16 = 417.6875
-    hx.set_reference_unit(417.6875)
+    hx.set_reference_unit(418.8322)
 
     #sensore off and then back on again
     hx.reset()
@@ -60,9 +60,17 @@ def setUpLoad():
     return hx
 
 def getWeight(hx):
-    val = hx.get_weight(5)
-    return val
-    print(val)
+    val1 = hx.get_weight(5)
+    val2 = hx.get_weight(5)
+    val1 = abs(val1)
+    val2 = abs(val2)
+
+    if (val1 - val2) > 4:
+        getWeight(hx)
+    else:
+        val = (val1+val2)/2
+        hx.tare()
+        return val
 
 
 def popUpNotification(calories):
@@ -77,8 +85,7 @@ def popUpNotification(calories):
     popup.mainloop()
 
 
-def recordAction(startW, stopW, candyInst):
-    weight = startW - stopW
+def recordAction(weight, candyInst):
     #if weight has not changed, stop
     if weight < 3:
         return
@@ -185,9 +192,15 @@ def selectCandy():
     
     return candyInstance
 
+
+
+
 def candy(hx, candyInst):
     turnLightOn()
-    weightStart = getWeight(hx)
+
+    #scale starts at zero and then as candy dropps out goes negative
+    hx.tare()
+    #weightStart = getWeight(hx)
     
     # present time + 15 seconds
     timeout = time.time() + 15
@@ -203,25 +216,25 @@ def candy(hx, candyInst):
             moveServo()
             stopWeight = getWeight(hx)
             #record the number of calories in the file, send alert
-            recordAction(weightStart, stopWeight, candyInst)
-            
-            
+            recordAction(stopWeight, candyInst)
     
+    turnLightOff()
     #time to make sure it is not activated twice
     time.sleep(1)
-    turnLightOff()
-    
 
     
 
 def main():
+    #move arm to closed position
+    moveServoDefault()
+
     #asks user what candy is in machine and record it
     candyInst = selectCandy()
     
     #set up load cell
     hx = setUpLoad()
 
-    #initias visual
+    #initize visual
     setUpBar()
     
     try:
