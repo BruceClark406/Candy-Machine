@@ -61,18 +61,30 @@ def setUpLoad():
     return hx
 
 def getWeight(hx):
+
     val1 = hx.get_weight(5)
     val2 = hx.get_weight(5)
     val = val1 - val2
     val = abs(val)
+
+    #if the difference is greater than 30, something has gone wrong, try again
+    i = 0
+    while (val > 30):
+        if i == 10:
+            print("Error cannot determin calorie count. :(")
+            return 0
+        print("There is no way that much candy came out son!")
+        val1 = hx.get_weight(5)
+        val2 = hx.get_weight(5)
+        val = val1 - val2
+        val = abs(val)
+        i+=1
+    
+    
     #if the difference between the two weights is less that four than 4, try again
     if val < 2 :
         print("If nothing came out, you could try to shake me!")
         return 0
-    #if the difference is greater than 30, something has gone wrong, try again
-    elif (val > 30):
-        print("There is no way that much candy came out son!")
-        getWeight(hx)
     #else average the values and return the average weight measures
     else:
         weight = val/2
@@ -156,21 +168,24 @@ def turnLightOff():
 
 
 def getDistance():
-    GPIO.output(TRIG, True)
-    time.sleep(.00001)
-    GPIO.output(TRIG, False)
     
+
     check = time.time() + 2
 
     #must make sure start gets assigned
     start = 0
 
+    GPIO.output(TRIG, True)
+    time.sleep(.00001)
+    GPIO.output(TRIG, False)
+ 
     #sending out the echo
     while GPIO.input(ECHO) == False:
         if check < time.time():
             #since we have such close distances we need to make sure
-            #that the echo has not already happend
-            return
+            #that the echo has not already happend, if it has, try again
+            print("distnace sensor failed, trying again")
+            return getDistance()
         else:
             start = time.time()
 
@@ -179,19 +194,29 @@ def getDistance():
         end = time.time()
     
     #if start is assigned
-    if start !=0:
+    if start != 0:
         sigTime = end-start
 
         #cm
         distance = sigTime / .000058 #inches: .000148
+        return distance
 
         #print("Distance: {} cm".format(distance))
+    else:
+        #we know that start was missed, recurive call untill we get value
+        return getDistance()
 
-        #only trigger if the hand is closer than 8cm away
-        if distance < TRIGGERDISTANCE:
-            return True
-        else:
-            return False
+def getDistanceAverage():
+    #making sure a faulty value was not returned
+    dist1 = getDistance()
+    dist2 = getDistance()
+
+    #only trigger if the hand is closer than 8cm away
+    if dist1 < TRIGGERDISTANCE and dist2 < TRIGGERDISTANCE:
+        return True
+    else:
+        return False
+
 
 def selectCandy():
     #making new instance of Candy Class
@@ -219,20 +244,16 @@ def candy(hx, candyInst):
         #move servo to proper position and return
         if time.time() > timeout:
             moveServoDefault()
+            turnLightOff()
             return
         #else listen for the botton and move the servo accordingly
-        elif(getDistance()):
+        elif(getDistanceAverage()):
             moveServo()
             stopWeight = getWeight(hx)
             if stopWeight != 0:
                 #record the number of calories in the file, send alert
                 recordAction(stopWeight, candyInst)
-    
-    turnLightOff()
-    #time to make sure it is not activated twice
-    time.sleep(1)
-
-    
+   
 
 def main():
     #move arm to closed position
