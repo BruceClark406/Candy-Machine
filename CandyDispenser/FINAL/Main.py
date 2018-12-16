@@ -15,7 +15,7 @@ PIR = 17
 #Distance Sensor
 TRIG = 5
 ECHO = 16
-TRIGGERDISTANCE = 6
+TRIGGERDISTANCE = 6 #CM
 #Load Cell
 DT = 6
 SCH = 13
@@ -23,7 +23,7 @@ SCH = 13
 LED = 25
 #SERVO POSITIONS (PWM)
 CLOSED = 7.5
-OPEN = 11
+OPEN = 10.5
 
 
 
@@ -62,15 +62,20 @@ def setUpLoad():
 def getWeight(hx):
     val1 = hx.get_weight(5)
     val2 = hx.get_weight(5)
-    val1 = abs(val1)
-    val2 = abs(val2)
-
-    if (val1 - val2) > 4:
+    val = val1 - val2
+    val = abs(val)
+    #if the difference between the two weights is less that four than 4, try again
+    if val < 2 :
+        print("If nothing came out, you could try to shake me!")
+    #if the difference is greater than 30, something has gone wrong, try again
+    elif (val > 30):
+        print("There is no way that much candy came out son!")
         getWeight(hx)
+    #else average the values and return the average weight measures
     else:
-        val = (val1+val2)/2
-        hx.tare()
-        return val
+        weight = val/2
+        #return asbsolute value
+        return weight
 
 
 def popUpNotification(calories):
@@ -116,7 +121,7 @@ def moveServoDefault():
     p.start(CLOSED)
     p.ChangeDutyCycle(CLOSED)
                                 
-    time.sleep(2)
+    time.sleep(1)
     p.stop()
 
 def moveServo():
@@ -149,13 +154,11 @@ def turnLightOff():
 
 
 def getDistance():
-    #time.sleep(.0001)
     GPIO.output(TRIG, True)
     time.sleep(.00001)
     GPIO.output(TRIG, False)
-    #time.sleep(1)
     
-    check = time.time() + 5
+    check = time.time() + 2
 
     #sending out the echo
     while GPIO.input(ECHO) == False:
@@ -200,7 +203,6 @@ def candy(hx, candyInst):
 
     #scale starts at zero and then as candy dropps out goes negative
     hx.tare()
-    #weightStart = getWeight(hx)
     
     # present time + 15 seconds
     timeout = time.time() + 15
