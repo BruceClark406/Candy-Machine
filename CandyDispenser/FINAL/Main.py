@@ -37,6 +37,7 @@ GPIO.setup(LED, GPIO.OUT)
 
 
 def cleanAndExit():
+    turnLightOff()M&
     GPIO.cleanup()
     sys.exit()
 
@@ -161,6 +162,9 @@ def getDistance():
     
     check = time.time() + 2
 
+    #must make sure start gets assigned
+    start = 0
+
     #sending out the echo
     while GPIO.input(ECHO) == False:
         if check < time.time():
@@ -174,18 +178,20 @@ def getDistance():
     while GPIO.input(ECHO) == True:
         end = time.time()
     
-    sigTime = end-start
+    #if start is assigned
+    if start !=0:
+        sigTime = end-start
 
-    #cm
-    distance = sigTime / .000058 #inches: .000148
+        #cm
+        distance = sigTime / .000058 #inches: .000148
 
-    #print("Distance: {} cm".format(distance))
+        #print("Distance: {} cm".format(distance))
 
-    #only trigger if the hand is closer than 8cm away
-    if distance < TRIGGERDISTANCE:
-        return True
-    else:
-        return False
+        #only trigger if the hand is closer than 8cm away
+        if distance < TRIGGERDISTANCE:
+            return True
+        else:
+            return False
 
 def selectCandy():
     #making new instance of Candy Class
@@ -231,6 +237,7 @@ def candy(hx, candyInst):
 def main():
     #move arm to closed position
     moveServoDefault()
+    turnLightOff()
 
     #asks user what candy is in machine and record it
     candyInst = selectCandy()
