@@ -17,18 +17,16 @@ try:
     while True:
         i = GPIO.input(17)
         if i == 0:
-            print("no intruders", i)
+            print("no candy", i)
         elif i == 1:
-            print("intruder detected", i)
+            print("CANDY", i)
             
         else:
             print("no sensor detected")
             break
         
 except KeyboardInterrupt:
-    #GPIO.output(17, False)
     GPIO.cleanup()
-    i = 0
     print("the session has been terminated.")
 
 
