@@ -67,6 +67,7 @@ def getWeight(hx):
     #if the difference between the two weights is less that four than 4, try again
     if val < 2 :
         print("If nothing came out, you could try to shake me!")
+        return 0
     #if the difference is greater than 30, something has gone wrong, try again
     elif (val > 30):
         print("There is no way that much candy came out son!")
@@ -217,8 +218,9 @@ def candy(hx, candyInst):
         elif(getDistance()):
             moveServo()
             stopWeight = getWeight(hx)
-            #record the number of calories in the file, send alert
-            recordAction(stopWeight, candyInst)
+            if stopWeight != 0:
+                #record the number of calories in the file, send alert
+                recordAction(stopWeight, candyInst)
     
     turnLightOff()
     #time to make sure it is not activated twice
