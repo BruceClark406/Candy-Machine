@@ -37,7 +37,7 @@ GPIO.setup(LED, GPIO.OUT)
 
 
 def cleanAndExit():
-    turnLightOff()M&
+    turnLightOff()
     GPIO.cleanup()
     sys.exit()
 
