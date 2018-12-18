@@ -88,7 +88,6 @@ def getWeight(hx):
     #else average the values and return the average weight measures
     else:
         weight = val/2
-        #return asbsolute value
         return weight
 
 
@@ -105,13 +104,11 @@ def popUpNotification(calories):
 
 
 def recordAction(weight, candyInst):
-    #if weight has not changed, stop
-    if weight < 3:
-        return
-
     ratio = candyInst.getCandySelectedRatio()
 
     calories = weight/ratio
+    calories = str(int(calories))
+    
 
     #call the pop up, to notify calorie consumption 
     popUpNotification(calories)
@@ -168,7 +165,8 @@ def turnLightOff():
 
 
 def getDistance():
-    
+    start = 0
+    end = 0
 
     check = time.time() + 2
 
@@ -184,8 +182,8 @@ def getDistance():
         if check < time.time():
             #since we have such close distances we need to make sure
             #that the echo has not already happend, if it has, try again
-            print("distnace sensor failed, trying again")
-            return getDistance()
+            print("distnace sensor failed")
+            return 10000
         else:
             start = time.time()
 
