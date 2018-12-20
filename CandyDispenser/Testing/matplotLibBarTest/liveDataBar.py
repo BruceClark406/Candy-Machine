@@ -2,32 +2,35 @@ import matplotlib.animation as animation
 import matplotlib.pyplot as plt; plt.rcdefaults()
 import numpy as np
 import matplotlib.pyplot as plt
+import time
 
 from datetime import datetime, timedelta
 
-fig = plt.figure()
-y_pos = ("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday")
 
 def whichDate(day):
-    for i in range (len(y_pos)):
+    y_pos = ("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday")
+    for i in range (6):
         if day == y_pos[i]:
             return i
         
+#def animate(i):
 def animate(i):
     #returns the week day as a number (monday = 0)
     dayOfWeek = datetime.today().weekday()
-    
+
     #x axis
-    y_posInt = [1,2,3,4,5,6,7]
+    y_posInt = [7,6,1,4,3,2,5]
+    y_pos = ("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday")
 
     #orders the y_posInt according to which day it is
-    for i in range(7):
-        y_posInt[6-i] = dayOfWeek
-        if dayOfWeek == 6:
-            dayOfWeek = 0
-        else:
-            dayOfWeek += 1
-
+##    dayOfWeek += 1
+##    for i in range(7):
+##        y_posInt[6-i] = dayOfWeek
+##        if dayOfWeek == 1:
+##            dayOfWeek = 7
+##        else:
+##            dayOfWeek -= 1
+##    print(y_posInt)
     
     #calaroies per day (y axis)
     performance = [0,0,0,0,0,0,0]
@@ -57,12 +60,18 @@ def animate(i):
             
             plt.bar(y_posInt, performance, color=("#4286f4"), align='center')
             
+def setUpBar():
+    fig = plt.figure()
+    
+    plt.ylabel('Calories')
+    #changes the space at the botton of the graph for the x labels
+    plt.gcf().subplots_adjust(bottom=0.15)
 
-plt.ylabel('Calories')
-#changes the space at the botton of the graph for the x labels
-plt.gcf().subplots_adjust(bottom=0.15)
+    plt.title('Calories by Weekday')
+    fig.canvas.set_window_title('Consumption Of Calories')
+    ani = animation.FuncAnimation(fig, animate, interval=3000)
+    plt.show()
 
-plt.title('Calories by Weekday')
-fig.canvas.set_window_title('Consumption Of Calories')
-ani = animation.FuncAnimation(fig, animate, interval=3000)
-plt.show()
+
+if __name__ == "__main__":
+    setUpBar()

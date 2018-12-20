@@ -2,6 +2,7 @@ import matplotlib.animation as animation
 import matplotlib.pyplot as plt; plt.rcdefaults()
 import numpy as np
 import matplotlib.pyplot as plt
+import time
 
 from datetime import datetime, timedelta
 
@@ -71,5 +72,11 @@ def setUpBar():
     #ani = animation.FuncAnimation(fig, animate, interval=3000)
     plt.show(block=False)
 
+def main():
+    time.sleep(5)
+    animate()
+
+
 if __name__ == "__main__":
     setUpBar()
+    main()
