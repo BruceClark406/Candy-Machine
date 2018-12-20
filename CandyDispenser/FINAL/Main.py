@@ -102,7 +102,7 @@ def popUpNotification(calories):
     popup.mainloop()
 
 
-def getCalorieCount(weight, candyInst)
+def getCalorieCount(weight, candyInst):
     ratio = candyInst.getCandySelectedRatio()
     calories = weight/ratio
     return str(int(calories))
@@ -231,7 +231,8 @@ def candy(hx, candyInst):
         stopWeight = getWeight(hx)
         if stopWeight != 0:
             #record the number of calories in the file, send alert
-            calories = getCalorieCount(CandyInst)
+            weight = getWeight(hx)
+            calories = getCalorieCount(weight, candyInst)
             recordAction(calories)
             #call the pop up, to notify calorie consumption 
             #popUpNotification(calories)
