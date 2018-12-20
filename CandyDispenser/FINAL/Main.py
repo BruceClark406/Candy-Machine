@@ -8,7 +8,7 @@ import sys
 #need class HX711 from file hx711
 from hx711 import HX711
 from candyTypes import CandySelection
-from liveDataBar import *
+#from liveDataBar import *
 
 SERVO = 27
 PIR = 17
@@ -80,7 +80,6 @@ def getWeight(hx):
         val = abs(val)
         i+=1
     
-    
     #if the difference between the two weights is less that four than 4, try again
     if val < 2 :
         print("If nothing came out, you could try to shake me!")
@@ -103,23 +102,18 @@ def popUpNotification(calories):
     popup.mainloop()
 
 
-def recordAction(weight, candyInst):
+def getCalorieCount(weight, candyInst)
     ratio = candyInst.getCandySelectedRatio()
-
     calories = weight/ratio
-    calories = str(int(calories))
-    
+    return str(int(calories))
 
-    #call the pop up, to notify calorie consumption 
-    popUpNotification(calories)
-    
+
+def recordAction(calories):
     #append onto a file
     f = open("record.txt", "a")
     f.write("Date: " + time.strftime("%m/%d/%Y %A ") + "Time: "+
             time.strftime("%I:%M:%S %p ") + "Calories: " + calories + "\n")
     f.close()
-    #change the bar graph
-    animate()
 
 def moveServoDefault():
     #making sure candy is not continually falling out of the machine
@@ -229,28 +223,18 @@ def selectCandy():
 
 
 def candy(hx, candyInst):
-    turnLightOn()
-
-    #scale starts at zero and then as candy dropps out goes negative
-    hx.tare()
-    
-    # present time + 15 seconds
-    timeout = time.time() + 15
-    while True:
-        
-        #if we have reached time out
-        #move servo to proper position and return
-        if time.time() > timeout:
-            moveServoDefault()
-            turnLightOff()
-            return
-        #else listen for the botton and move the servo accordingly
-        elif(getDistanceAverage()):
-            moveServo()
-            stopWeight = getWeight(hx)
-            if stopWeight != 0:
-                #record the number of calories in the file, send alert
-                recordAction(stopWeight, candyInst)
+    #else listen for the botton and move the servo accordingly
+    if(getDistanceAverage()):
+        #scale starts at zero and then as candy dropps out goes negative
+        hx.tare()
+        moveServo()
+        stopWeight = getWeight(hx)
+        if stopWeight != 0:
+            #record the number of calories in the file, send alert
+            calories = getCalorieCount(CandyInst)
+            recordAction(calories)
+            #call the pop up, to notify calorie consumption 
+            #popUpNotification(calories)
    
 
 def main():
@@ -263,9 +247,6 @@ def main():
     
     #set up load cell
     hx = setUpLoad()
-
-    #initize visual
-    setUpBar()
     
     try:
         #give PIR sensor time to warm up
@@ -279,14 +260,16 @@ def main():
             i = GPIO.input(PIR)
         
             if i == 0:
+                turnLightOff()
                 print("No candy for you fat lard!")
             elif i == 1:
+                turnLightOn()
                 print("CANDY!")
                 candy(hx, candyInst)
         
     except KeyboardInterrupt:
-        print("\nThe session has been terminated...")
         cleanAndExit()
+        print("\nThe session has been terminated...")
         
 
 if __name__ == "__main__":

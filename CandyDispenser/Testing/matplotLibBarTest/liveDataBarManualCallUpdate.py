@@ -7,28 +7,30 @@ import time
 from datetime import datetime, timedelta
 
 
-dayDict = {"Monday" : 0,
-         "Tuesday" : 1,
-         "Wednesday" : 2,
-         "Thursday" : 3,
-         "Friday" : 4,
-         "Saturday" : 5,
-         "Sunday" : 6}
-
-
+def whichDate(day):
+    y_pos = ("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday")
+    for i in range (6):
+        if day == y_pos[i]:
+            return i
         
 #def animate(i):
-def animate(i):
+def animate():
     #returns the week day as a number (monday = 0)
     dayOfWeek = datetime.today().weekday()
-    y_pos = ("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday")
-    y_posInt = [1,2,3,4,5,6,7]
+
     #x axis
-    y_posInt = [5,6,7,1,2,3,4]
+    y_posInt = [1,2,3,4,5,6,7]
+    y_pos = ("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday")
+
+    #orders the y_posInt according to which day it is
     for i in range(7):
-        y_posInt[dayOfWeek - i] = 7 - i
+        y_posInt[6-i] = dayOfWeek
+        if dayOfWeek == 0:
+            dayOfWeek = 6
+        else:
+            dayOfWeek -= 1
 
-
+    
     #calaroies per day (y axis)
     performance = [0,0,0,0,0,0,0]
     graph_data = open('record.txt','r').read()
@@ -50,14 +52,12 @@ def animate(i):
             # if date in folder is greater than the cuttOff date, include it in graph
             if datetime(int(numberDate[2]), int(numberDate[0]), int(numberDate[1]))  > cutOffDate:
                 #grab the week day "Thursday"
-                dayNum = dayDict[singleLine[2]]
+                dayNum = whichDate(singleLine[2])
                 performance[dayNum] += int(singleLine[7])
-    
 
-    
-    plt.xticks(y_posInt, y_pos, rotation=40)
-    #plt.bar(x value, height)
-    plt.bar(y_posInt, performance, color=("#4286f4"), align='center')
+            plt.xticks(y_posInt, y_pos, rotation=40)
+            
+            plt.bar(y_posInt, performance, color=("#4286f4"), align='center')
             
 def setUpBar():
     fig = plt.figure()
@@ -68,9 +68,15 @@ def setUpBar():
 
     plt.title('Calories by Weekday')
     fig.canvas.set_window_title('Consumption Of Calories')
-    ani = animation.FuncAnimation(fig, animate, interval=3000)
-    plt.show()
+    animate()
+    #ani = animation.FuncAnimation(fig, animate, interval=3000)
+    plt.show(block=False)
+
+def main():
+    time.sleep(5)
+    animate()
 
 
 if __name__ == "__main__":
     setUpBar()
+    main()

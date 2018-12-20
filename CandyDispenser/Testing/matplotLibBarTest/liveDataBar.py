@@ -7,31 +7,28 @@ import time
 from datetime import datetime, timedelta
 
 
-def whichDate(day):
-    y_pos = ("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday")
-    for i in range (6):
-        if day == y_pos[i]:
-            return i
+dayDict = {"Monday" : 0,
+         "Tuesday" : 1,
+         "Wednesday" : 2,
+         "Thursday" : 3,
+         "Friday" : 4,
+         "Saturday" : 5,
+         "Sunday" : 6}
+
+
         
 #def animate(i):
 def animate(i):
     #returns the week day as a number (monday = 0)
     dayOfWeek = datetime.today().weekday()
-
-    #x axis
-    y_posInt = [7,6,1,4,3,2,5]
     y_pos = ("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday")
+    y_posInt = [1,2,3,4,5,6,7]
+    #x axis
+    y_posInt = [5,6,7,1,2,3,4]
+    for i in range(7):
+        y_posInt[dayOfWeek - i] = 7 - i
 
-    #orders the y_posInt according to which day it is
-##    dayOfWeek += 1
-##    for i in range(7):
-##        y_posInt[6-i] = dayOfWeek
-##        if dayOfWeek == 1:
-##            dayOfWeek = 7
-##        else:
-##            dayOfWeek -= 1
-##    print(y_posInt)
-    
+
     #calaroies per day (y axis)
     performance = [0,0,0,0,0,0,0]
     graph_data = open('record.txt','r').read()
@@ -53,12 +50,14 @@ def animate(i):
             # if date in folder is greater than the cuttOff date, include it in graph
             if datetime(int(numberDate[2]), int(numberDate[0]), int(numberDate[1]))  > cutOffDate:
                 #grab the week day "Thursday"
-                dayNum = whichDate(singleLine[2])
+                dayNum = dayDict[singleLine[2]]
                 performance[dayNum] += int(singleLine[7])
+    
 
-            plt.xticks(y_posInt, y_pos, rotation=40)
-            
-            plt.bar(y_posInt, performance, color=("#4286f4"), align='center')
+    
+    plt.xticks(y_posInt, y_pos, rotation=40)
+    #plt.bar(x value, height)
+    plt.bar(y_posInt, performance, color=("#4286f4"), align='center')
             
 def setUpBar():
     fig = plt.figure()
