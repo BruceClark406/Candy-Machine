@@ -1,5 +1,6 @@
 #this is not the property of Bruce Clark
-#this code is taken and slightly modified from a HX711 Libaray online
+#this code is taken from a HX711 Libaray online
+#https://github.com/tatobari/hx711py/blob/master/hx711.py
 
 import RPi.GPIO as GPIO
 import time

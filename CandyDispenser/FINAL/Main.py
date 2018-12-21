@@ -67,26 +67,28 @@ def getWeight(hx):
     val = val1 - val2
     val = abs(val)
 
-    #if the difference is greater than 30, something has gone wrong, try again
+    #if the difference between both readings is greater than 30, something has gone wrong
+    #making sure the two numbers we pulled from the load cell are reasonable
     i = 0
     while (val > 30):
-        if i == 10:
-            print("Error cannot determin calorie count. :(")
+        if i == 5:
+            print("Error cannot determing calorie count. :(")
             return 0
-        print("There is no way that much candy came out son!")
+        print("load cell produced faulty value")
         val1 = hx.get_weight(5)
         val2 = hx.get_weight(5)
         val = val1 - val2
         val = abs(val)
         i+=1
     
+    # if readings make sence, take average 
+    weight = (val1 + val2)/2
     #if the difference between the two weights is less that four than 4, try again
-    if val < 2 :
+    if weight < 2:
         print("If nothing came out, you could try to shake me!")
         return 0
     #else average the values and return the average weight measures
     else:
-        weight = val/2
         return weight
 
 
@@ -228,11 +230,12 @@ def candy(hx, candyInst):
         #scale starts at zero and then as candy dropps out goes negative
         hx.tare()
         moveServo()
-        stopWeight = getWeight(hx)
-        if stopWeight != 0:
-            #record the number of calories in the file, send alert
-            weight = getWeight(hx)
-            calories = getCalorieCount(weight, candyInst)
+        weight = getWeight(hx)
+        #if CandyActually came out
+
+        #NEED TO FIX GET WEIGHT FUNCTION
+        calories = getCalorieCount(weight, candyInst)
+        if calories > 3:
             recordAction(calories)
             #call the pop up, to notify calorie consumption 
             #popUpNotification(calories)
