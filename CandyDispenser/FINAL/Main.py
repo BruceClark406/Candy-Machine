@@ -107,7 +107,7 @@ def popUpNotification(calories):
 def getCalorieCount(weight, candyInst):
     ratio = candyInst.getCandySelectedRatio()
     calories = weight/ratio
-    return str(int(calories))
+    return int(calories)
 
 
 def recordAction(calories):
@@ -236,7 +236,7 @@ def candy(hx, candyInst):
         #NEED TO FIX GET WEIGHT FUNCTION
         calories = getCalorieCount(weight, candyInst)
         if calories > 3:
-            recordAction(calories)
+            recordAction(str(calories))
             #call the pop up, to notify calorie consumption 
             #popUpNotification(calories)
    
