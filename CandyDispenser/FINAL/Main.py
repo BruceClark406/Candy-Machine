@@ -8,7 +8,8 @@ import sys
 #need class HX711 from file hx711
 from hx711 import HX711
 from candyTypes import CandySelection
-#from liveDataBar import *
+from liveDataBar import *
+import threading
 
 SERVO = 27
 PIR = 17
@@ -22,9 +23,11 @@ SCH = 13
 #LED
 LED = 25
 #SERVO POSITIONS (PWM)
-CLOSED = 7.5
-OPEN = 10.5
-
+CLOSED = 7
+OPEN = 10
+#Pop Up Notification
+WIDTHOFPOPUP = 600
+WIDTHOFPOPUP = 200
 
 
 #setup the PIR sensor
@@ -72,6 +75,8 @@ def getWeight(hx):
     i = 0
     while (val > 30):
         if i == 5:
+            t1 = threading.Thread(target=popUpNotification, arg=("Error cannot determing calorie count. :("),)
+            t1.start()
             print("Error cannot determing calorie count. :(")
             return 0
         print("load cell produced faulty value")
@@ -85,6 +90,8 @@ def getWeight(hx):
     weight = (val1 + val2)/2
     #if the difference between the two weights is less that four than 4, try again
     if weight < 2:
+        t1 = threading.Thread(target=popUpNotification, arg=("If nothing came out, you could try to shake me!"),)
+        t1.start()
         print("If nothing came out, you could try to shake me!")
         return 0
     #else average the values and return the average weight measures
@@ -92,15 +99,19 @@ def getWeight(hx):
         return weight
 
 
-def popUpNotification(calories):
+def popUpNotification(output):
     popup = tk.Tk()
     popup.wm_title("Calorie Kill Count")
-    output = "You are about to consume ", calories, " calaries!"
     label = ttk.Label(popup, text=output, font = ("Verdana", 12))
     label.pack(side="top", fill="x", padx=20, pady=20)
 
     #after 3 second destroy the alert
+
+    widthOfScreen = (popup.winfo_screenwidth() /2) - (WIDTHOFPOPUP/2)
+    heightOfScreen = (popup.winfo_screenheight() /2) - (WIDTHOFPOPUP/2)
+
     popup.after(3000, lambda: popup.destroy())
+    popup.geometry("%dx%d+%d+%d" % (WIDTHOFPOPUP, WIDTHOFPOPUP, widthOfScreen, heightOfScreen))
     popup.mainloop()
 
 
@@ -164,7 +175,7 @@ def getDistance():
     start = 0
     end = 0
 
-    check = time.time() + 2
+    check = time.time() + 1
 
     #must make sure start gets assigned
     start = 0
@@ -194,8 +205,6 @@ def getDistance():
         #cm
         distance = sigTime / .000058 #inches: .000148
         return distance
-
-        #print("Distance: {} cm".format(distance))
     else:
         #we know that start was missed, recurive call untill we get value
         return getDistance()
@@ -227,24 +236,31 @@ def selectCandy():
 def candy(hx, candyInst):
     #else listen for the botton and move the servo accordingly
     if(getDistanceAverage()):
-        #scale starts at zero and then as candy dropps out goes negative
-        hx.tare()
         moveServo()
         weight = getWeight(hx)
-        #if CandyActually came out
-
-        #NEED TO FIX GET WEIGHT FUNCTION
         calories = getCalorieCount(weight, candyInst)
+        #if Candy actually came out
         if calories > 3:
-            recordAction(str(calories))
+            #record the event in the log
+            t1 = threading.Thread(target=recordAction, arg=(str(calories),))
             #call the pop up, to notify calorie consumption 
-            #popUpNotification(calories)
+            t2 = threading.Thread(target=popUpNotification, arg=(("You are about to consume %s calaries!" % (calories)),))
+            #scale starts at zero and then as candy dropps out goes negative
+            t3 = threading.Thread(target=hx.tare)
+            t1.start()
+            t2.start()
+            t3.start()
+
    
 
 def main():
     #move arm to closed position
     moveServoDefault()
     turnLightOff()
+
+    #start an ongoing threat to set up/refresh bar garaph
+    task = threading.Thread(target=setUpBar)
+    task.start()
 
     #asks user what candy is in machine and record it
     candyInst = selectCandy()
@@ -253,9 +269,6 @@ def main():
     hx = setUpLoad()
     
     try:
-        #give PIR sensor time to warm up
-        time.sleep(2)
-        
         while True:
             #only checks sesnor every .5 seconds
             time.sleep(.5)
@@ -272,8 +285,8 @@ def main():
                 candy(hx, candyInst)
         
     except KeyboardInterrupt:
-        cleanAndExit()
         print("\nThe session has been terminated...")
+        cleanAndExit()
         
 
 if __name__ == "__main__":
