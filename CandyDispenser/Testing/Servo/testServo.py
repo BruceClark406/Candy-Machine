@@ -2,12 +2,20 @@ import RPi.GPIO as GPIO
 import time
 
 
+
+
 SERVO = 27
 CLOSED = 7
 OPEN = 10
 TRIG = 5
 ECHO = 16
 TRIGGERDISTANCE = 8
+
+
+GPIO.setwarnings(False)
+GPIO.setmode(GPIO.BCM)
+GPIO.setup(TRIG, GPIO.OUT)
+GPIO.setup(ECHO, GPIO.IN)
 
 
 def moveServoDefault():
