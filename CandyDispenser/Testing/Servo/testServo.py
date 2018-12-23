@@ -99,8 +99,9 @@ def getDistanceAverage():
 
 def main():
     try:
-        if (getDistanceAverage):
-            moveServo()
+        while True:
+            if (getDistanceAverage):
+                moveServo()
     except KeyboardInterrupt:
         GPIO.cleanup()
      
