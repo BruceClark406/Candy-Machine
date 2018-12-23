@@ -104,4 +104,5 @@ def main():
                 moveServo()
     except KeyboardInterrupt:
         GPIO.cleanup()
-     
+
+main()
