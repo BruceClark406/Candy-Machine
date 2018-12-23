@@ -1,6 +1,4 @@
-#when the pir sensor is activiated, move the servo 180 degrees
-
-import RPi.GPIO as GPIO
+M&Mimport RPi.GPIO as GPIO
 import tkinter as tk
 from tkinter import ttk
 import time
@@ -75,7 +73,7 @@ def getWeight(hx):
     i = 0
     while (val > 30):
         if i == 5:
-            t1 = threading.Thread(target=popUpNotification, arg=("Error cannot determing calorie count. :("),)
+            t1 = threading.Thread(target=popUpNotification, arg=(("Error cannot determing calorie count. :("),))
             t1.start()
             print("Error cannot determing calorie count. :(")
             return 0
@@ -90,7 +88,7 @@ def getWeight(hx):
     weight = (val1 + val2)/2
     #if the difference between the two weights is less that four than 4, try again
     if weight < 2:
-        t1 = threading.Thread(target=popUpNotification, arg=("If nothing came out, you could try to shake me!"),)
+        t1 = threading.Thread(target=popUpNotification, arg=(("If nothing came out, you could try to shake me!"),))
         t1.start()
         print("If nothing came out, you could try to shake me!")
         return 0

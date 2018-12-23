@@ -1,14 +1,14 @@
 import tkinter as tk
 from tkinter import ttk
+import threading
 
-def popUpNotification(calories):
+def popUpNotification(output):
 
     widthOfPopup = 600
     heightOfPopup = 200
 
     popup = tk.Tk()
     popup.wm_title("Calorie Kill Count")
-    output = ("You are about to consume %s calaries!" % (calories))
     label = ttk.Label(popup, text=output, font = ("Verdana", 12))
     label.pack(side="top", fill="x", padx=20, pady=20)
 
@@ -23,4 +23,7 @@ def popUpNotification(calories):
 
 
 if __name__ == "__main__":
-    popUpNotification(str(4))
+    calories = 4
+    #output = ("You are about to consume %s calaries!" % (calories))
+    t1 = threading.Thread(target=popUpNotification, args=(("You are about to consume %s calaries!" % (calories)),))
+    t1.start()
