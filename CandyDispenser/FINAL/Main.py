@@ -231,8 +231,11 @@ def selectCandy():
 
 
 
-def splitTheWork(hx, candyInst):
-    weight = getWeight(hx)
+def candy(hx, candyInst):
+    #else listen for the botton and move the servo accordingly
+    if(getDistanceAverage()):
+        moveServo()
+        weight = getWeight(hx)
         calories = getCalorieCount(weight, candyInst)
         #if Candy actually came out
         if calories > 3:
@@ -247,12 +250,7 @@ def splitTheWork(hx, candyInst):
             t2.start()
             t3.start()
 
-
-def candy(hx, candyInst):
-    #else listen for the botton and move the servo accordingly
-    if(getDistanceAverage()):
-        moveServo()
-        t1 = threading.Thread(target=splitTheWork, args=(hx, candyInst,))
+   
 
 def main():
     #move arm to closed position
