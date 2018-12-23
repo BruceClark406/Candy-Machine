@@ -25,7 +25,7 @@ CLOSED = 7
 OPEN = 10
 #Pop Up Notification
 WIDTHOFPOPUP = 600
-WIDTHOFPOPUP = 200
+HEIGHTOFSCREEN = 200
 
 
 #setup the PIR sensor
@@ -106,10 +106,10 @@ def popUpNotification(output):
     #after 3 second destroy the alert
 
     widthOfScreen = (popup.winfo_screenwidth() /2) - (WIDTHOFPOPUP/2)
-    heightOfScreen = (popup.winfo_screenheight() /2) - (WIDTHOFPOPUP/2)
+    heightOfScreen = (popup.winfo_screenheight() /2) - (HEIGHTOFSCREEN/2)
 
     popup.after(3000, lambda: popup.destroy())
-    popup.geometry("%dx%d+%d+%d" % (WIDTHOFPOPUP, WIDTHOFPOPUP, widthOfScreen, heightOfScreen))
+    popup.geometry("%dx%d+%d+%d" % (WIDTHOFPOPUP, HEIGHTOFSCREEN, widthOfScreen, heightOfScreen))
     popup.mainloop()
 
 
@@ -231,17 +231,14 @@ def selectCandy():
 
 
 
-def candy(hx, candyInst):
-    #else listen for the botton and move the servo accordingly
-    if(getDistanceAverage()):
-        moveServo()
-        weight = getWeight(hx)
+def splitTheWork(hx, candyInst):
+    weight = getWeight(hx)
         calories = getCalorieCount(weight, candyInst)
         #if Candy actually came out
         if calories > 3:
             calories = str(calories)
             #record the event in the log
-            t1 = threading.Thread(target=recordAction, args=(calories),))
+            t1 = threading.Thread(target=recordAction, args=((calories),))
             #call the pop up, to notify calorie consumption 
             t2 = threading.Thread(target=popUpNotification, args=(("You are about to consume %s calaries!" % (calories)),))
             #scale starts at zero and then as candy dropps out goes negative
@@ -250,7 +247,12 @@ def candy(hx, candyInst):
             t2.start()
             t3.start()
 
-   
+
+def candy(hx, candyInst):
+    #else listen for the botton and move the servo accordingly
+    if(getDistanceAverage()):
+        moveServo()
+        t1 = threading.Thread(target=splitTheWork, args=(hx, candyInst,))
 
 def main():
     #move arm to closed position
