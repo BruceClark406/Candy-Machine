@@ -1,4 +1,4 @@
-M&Mimport RPi.GPIO as GPIO
+import RPi.GPIO as GPIO
 import tkinter as tk
 from tkinter import ttk
 import time
@@ -73,7 +73,7 @@ def getWeight(hx):
     i = 0
     while (val > 30):
         if i == 5:
-            t1 = threading.Thread(target=popUpNotification, arg=(("Error cannot determing calorie count. :("),))
+            t1 = threading.Thread(target=popUpNotification, args=(("Error cannot determing calorie count. :("),))
             t1.start()
             print("Error cannot determing calorie count. :(")
             return 0
@@ -88,7 +88,7 @@ def getWeight(hx):
     weight = (val1 + val2)/2
     #if the difference between the two weights is less that four than 4, try again
     if weight < 2:
-        t1 = threading.Thread(target=popUpNotification, arg=(("If nothing came out, you could try to shake me!"),))
+        t1 = threading.Thread(target=popUpNotification, args=(("If nothing came out, you could try to shake me!"),))
         t1.start()
         print("If nothing came out, you could try to shake me!")
         return 0
@@ -239,10 +239,11 @@ def candy(hx, candyInst):
         calories = getCalorieCount(weight, candyInst)
         #if Candy actually came out
         if calories > 3:
+            calories = str(calories)
             #record the event in the log
-            t1 = threading.Thread(target=recordAction, arg=(str(calories),))
+            t1 = threading.Thread(target=recordAction, args=(calories),))
             #call the pop up, to notify calorie consumption 
-            t2 = threading.Thread(target=popUpNotification, arg=(("You are about to consume %s calaries!" % (calories)),))
+            t2 = threading.Thread(target=popUpNotification, args=(("You are about to consume %s calaries!" % (calories)),))
             #scale starts at zero and then as candy dropps out goes negative
             t3 = threading.Thread(target=hx.tare)
             t1.start()
