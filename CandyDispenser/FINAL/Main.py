@@ -235,7 +235,7 @@ def candy(hx, candyInst):
     #sets a time for 15 seconds one the PIR sensor is triggerd
     timeOut = time.time() + 15
 
-    while time.time() > timeOut:
+    while time.time() < timeOut:
         #else listen for the botton and move the servo accordingly
         if(getDistanceAverage()):
             moveServo()

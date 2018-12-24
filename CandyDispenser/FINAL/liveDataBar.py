@@ -49,9 +49,11 @@ def animate(i):
                 dayNum = dayDict[singleLine[2]]
                 performance[dayNum] += int(singleLine[7])
     plt.xticks(y_posInt, y_pos, rotation=40)
-    
+    print(y_posInt)
+    print(performance)
     #plt.bar(x value of bar graph, height of bar graph)
     plt.bar(y_posInt, performance, color=("#4286f4"), align='center')
+
             
 def setUpBar():
     fig = plt.figure()
@@ -62,7 +64,7 @@ def setUpBar():
 
     plt.title('Calories by Weekday')
     fig.canvas.set_window_title('Consumption Of Calories')
-    animation.FuncAnimation(fig, animate, interval=3000)
+    ani = animation.FuncAnimation(fig, animate, interval=3000)
     plt.show()
 
 
