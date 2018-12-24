@@ -14,10 +14,7 @@ dayDict = {"Monday" : 0,
          "Friday" : 4,
          "Saturday" : 5,
          "Sunday" : 6}
-
-
-        
-#def animate(i):
+    
 def animate(i):
     #returns the week day as a number (monday = 0)
     dayOfWeek = datetime.today().weekday()
@@ -27,7 +24,6 @@ def animate(i):
     y_posInt = [5,6,7,1,2,3,4]
     for i in range(7):
         y_posInt[dayOfWeek - i] = 7 - i
-
 
     #calaroies per day (y axis)
     performance = [0,0,0,0,0,0,0]
@@ -52,11 +48,9 @@ def animate(i):
                 #grab the week day "Thursday"
                 dayNum = dayDict[singleLine[2]]
                 performance[dayNum] += int(singleLine[7])
-    
-
-    
     plt.xticks(y_posInt, y_pos, rotation=40)
-    #plt.bar(x value, height)
+    
+    #plt.bar(x value of bar graph, height of bar graph)
     plt.bar(y_posInt, performance, color=("#4286f4"), align='center')
             
 def setUpBar():
@@ -68,7 +62,7 @@ def setUpBar():
 
     plt.title('Calories by Weekday')
     fig.canvas.set_window_title('Consumption Of Calories')
-    ani = animation.FuncAnimation(fig, animate, interval=3000)
+    animation.FuncAnimation(fig, animate, interval=3000)
     plt.show()
 
 

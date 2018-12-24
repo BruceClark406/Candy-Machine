@@ -232,7 +232,7 @@ def selectCandy():
 
 
 def candy(hx, candyInst):
-    
+    #sets a time for 15 seconds one the PIR sensor is triggerd
     timeOut = time.time() + 15
 
     while time.time() > timeOut:

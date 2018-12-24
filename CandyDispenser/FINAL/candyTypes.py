@@ -1,14 +1,8 @@
 class CandySelection:
-
-    
-    
     def __init__(self):
         self.CANDY = {"M&Ms": .2, "Chocolate Almonds": .1875}
         self.candySelectedRatio = 1
         self.candySelected = "No Candy Selected"
-        
-        
-        
 
     def selectCandy(self):
         print("What candy would you like: (", end="")
