@@ -232,23 +232,27 @@ def selectCandy():
 
 
 def candy(hx, candyInst):
-    #else listen for the botton and move the servo accordingly
-    if(getDistanceAverage()):
-        moveServo()
-        weight = getWeight(hx)
-        calories = getCalorieCount(weight, candyInst)
-        #if Candy actually came out
-        if calories > 3:
-            calories = str(calories)
-            #record the event in the log
-            t1 = threading.Thread(target=recordAction, args=((calories),))
-            #call the pop up, to notify calorie consumption 
-            t2 = threading.Thread(target=popUpNotification, args=(("You are about to consume %s calaries!" % (calories)),))
-            #scale starts at zero and then as candy dropps out goes negative
-            t3 = threading.Thread(target=hx.tare)
-            t1.start()
-            t2.start()
-            t3.start()
+    
+    timeOut = time.time() + 15
+
+    while time.time() > timeOut:
+        #else listen for the botton and move the servo accordingly
+        if(getDistanceAverage()):
+            moveServo()
+            weight = getWeight(hx)
+            calories = getCalorieCount(weight, candyInst)
+            #if Candy actually came out
+            if calories > 3:
+                calories = str(calories)
+                #record the event in the log
+                t1 = threading.Thread(target=recordAction, args=((calories),))
+                #call the pop up, to notify calorie consumption 
+                t2 = threading.Thread(target=popUpNotification, args=(("You are about to consume %s calaries!" % (calories)),))
+                #scale starts at zero and then as candy dropps out goes negative
+                t3 = threading.Thread(target=hx.tare)
+                t1.start()
+                t2.start()
+                t3.start()
 
    
 
