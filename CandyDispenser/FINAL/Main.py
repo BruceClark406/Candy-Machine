@@ -8,6 +8,7 @@ from hx711 import HX711
 from candyTypes import CandySelection
 from liveDataBar import *
 import threading
+from pynput.keyboard import Key, Controller
 
 SERVO = 27
 PIR = 17
@@ -230,19 +231,19 @@ def selectCandy():
 
 def triggerd():
     weight = getWeight(hx)
-            calories = getCalorieCount(weight, candyInst)
-            #if Candy actually came out
-            if calories > 3:
-                calories = str(calories)
-                #record the event in the log
-                t1 = threading.Thread(target=recordAction, args=((calories),))
-                #call the pop up, to notify calorie consumption 
-                t2 = threading.Thread(target=popUpNotification, args=(("You are about to consume %s calaries!" % (calories)),))
-                #scale starts at zero and then as candy dropps out goes negative
-                t3 = threading.Thread(target=hx.tare)
-                t1.start()
-                t2.start()
-                t3.start()
+    calories = getCalorieCount(weight, candyInst)
+    #if Candy actually came out
+    if calories > 3:
+        calories = str(calories)
+        #record the event in the log
+        t1 = threading.Thread(target=recordAction, args=((calories),))
+        #call the pop up, to notify calorie consumption 
+        t2 = threading.Thread(target=popUpNotification, args=(("You are about to consume %s calaries!" % (calories)),))
+        #scale starts at zero and then as candy dropps out goes negative
+        t3 = threading.Thread(target=hx.tare)
+        t1.start()
+        t2.start()
+        t3.start()
 
 
 def candy(hx, candyInst):
@@ -266,12 +267,15 @@ def main():
     #start an ongoing threat to set up/refresh bar garaph
     task = threading.Thread(target=setUpBar)
     task.start()
-
-    #asks user what candy is in machine and record it
-    candyInst = selectCandy()
     
     #set up load cell
     hx = setUpLoad()
+
+    #creates activity which wakes screen
+    keyboard = Controller()
+
+    #asks user what candy is in machine and record it
+    candyInst = selectCandy()
     
     try:
         while True:
@@ -285,6 +289,10 @@ def main():
                 turnLightOff()
                 print("No candy for you fat lard!")
             elif i == 1:
+                #creating and event to wake the screen
+                keyboard.press(Key.space)
+                keyboard.release(Key.space)
+                
                 turnLightOn()
                 print("CANDY!")
                 candy(hx, candyInst)
