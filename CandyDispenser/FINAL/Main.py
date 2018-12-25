@@ -229,7 +229,7 @@ def selectCandy():
     
     return candyInstance
 
-def triggerd():
+def triggerd(hx, candyInst):
     weight = getWeight(hx)
     calories = getCalorieCount(weight, candyInst)
     #if Candy actually came out
@@ -254,7 +254,7 @@ def candy(hx, candyInst):
         #else listen for the botton and move the servo accordingly
         if(getDistanceAverage()):
             moveServo()
-            task = threading.Thread(target=triggerd)
+            task = threading.Thread(target=triggerd, args=(hx, candyInst,))
             task.start()
 
    
