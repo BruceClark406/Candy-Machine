@@ -228,18 +228,8 @@ def selectCandy():
     
     return candyInstance
 
-
-
-
-def candy(hx, candyInst):
-    #sets a time for 15 seconds one the PIR sensor is triggerd
-    timeOut = time.time() + 15
-
-    while time.time() < timeOut:
-        #else listen for the botton and move the servo accordingly
-        if(getDistanceAverage()):
-            moveServo()
-            weight = getWeight(hx)
+def triggerd():
+    weight = getWeight(hx)
             calories = getCalorieCount(weight, candyInst)
             #if Candy actually came out
             if calories > 3:
@@ -253,6 +243,18 @@ def candy(hx, candyInst):
                 t1.start()
                 t2.start()
                 t3.start()
+
+
+def candy(hx, candyInst):
+    #sets a time for 15 seconds one the PIR sensor is triggerd
+    timeOut = time.time() + 15
+
+    while time.time() < timeOut:
+        #else listen for the botton and move the servo accordingly
+        if(getDistanceAverage()):
+            moveServo()
+            task = threading.Thread(target=triggerd)
+            task.start()
 
    
 
