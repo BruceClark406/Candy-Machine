@@ -19,9 +19,8 @@ def animate(i):
     #returns the week day as a number (monday = 0)
     dayOfWeek = datetime.today().weekday()
     y_pos = ("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday")
-    y_posInt = [1,2,3,4,5,6,7]
     #x axis
-    y_posInt = [5,6,7,1,2,3,4]
+    y_posInt = [1,2,3,4,5,6,7]
     for i in range(7):
         y_posInt[dayOfWeek - i] = 7 - i
 

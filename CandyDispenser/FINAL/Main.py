@@ -23,7 +23,7 @@ SCH = 13
 LED = 25
 #SERVO POSITIONS (PWM)
 CLOSED = 7
-OPEN = 10
+OPEN = 10.5
 #Pop Up Notification
 WIDTHOFPOPUP = 600
 HEIGHTOFSCREEN = 200
@@ -176,13 +176,11 @@ def turnLightOff():
 
 
 def getDistance():
+    #must make sure start/end gets assigned
     start = 0
     end = 0
 
     check = time.time() + 1
-
-    #must make sure start gets assigned
-    start = 0
 
     GPIO.output(TRIG, True)
     time.sleep(.00001)
@@ -226,12 +224,8 @@ def getDistanceAverage():
 
 
 def selectCandy():
-    #making new instance of Candy Class
     candyInstance = CandySelection()
-
-    #asking user to select Candy
     candyInstance.selectCandy()
-    
     return candyInstance
 
 def triggerd(hx, candyInst):
