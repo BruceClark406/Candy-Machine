@@ -86,17 +86,18 @@ def getWeight(hx):
         i+=1
     
     # if readings make sence, take average 
-    weight = (val1 + val2)/2
+    weight = abs((val1 + val2)/2)
     #if the difference between the two weights is less that four than 4, try again
-    if weight < 1:
+    if weight < .1:
         t1 = threading.Thread(target=popUpNotification, args=(("If nothing came out, you could try to shake me!"),))
         t1.start()
         print("If nothing came out, you could try to shake me!")
         return 0
-    elif weight > 20:
+    elif weight > 150:
         t1 = threading.Thread(target=popUpNotification, args=(("Error in determining the callorie kill count. :("),))
         t1.start()
         print("Error in determining the callorie kill count. :(")
+        return 0
         
     #else average the values and return the average weight measures
     else:
