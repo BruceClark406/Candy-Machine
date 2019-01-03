@@ -47,7 +47,7 @@ def animate(i):
                 #grab the week day "Thursday"
                 dayNum = dayDict[singleLine[2]]
                 performance[dayNum] += int(singleLine[7])
-    plt.xticks(y_posInt, y_pos, rotation=40)
+    plt.xticks(y_posInt, y_pos, rotation=30)
     #plt.bar(x value of bar graph, height of bar graph)
     plt.bar(y_posInt, performance, color=("#4286f4"), align='center')
 

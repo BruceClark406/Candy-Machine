@@ -76,9 +76,9 @@ def getWeight(hx):
         if i == 5:
             t1 = threading.Thread(target=popUpNotification, args=(("Error cannot determing calorie count. :("),))
             t1.start()
-            print("Error cannot determing calorie count. :(")
+            #print("Error cannot determing calorie count. :(")
             return 0
-        print("load cell produced faulty value")
+        #print("load cell produced faulty value")
         val1 = hx.get_weight(5)
         val2 = hx.get_weight(5)
         val = val1 - val2
@@ -91,12 +91,12 @@ def getWeight(hx):
     if weight < .1:
         t1 = threading.Thread(target=popUpNotification, args=(("If nothing came out, you could try to shake me!"),))
         t1.start()
-        print("If nothing came out, you could try to shake me!")
+        #print("If nothing came out, you could try to shake me!")
         return 0
     elif weight > 150:
         t1 = threading.Thread(target=popUpNotification, args=(("Error in determining the callorie kill count. :("),))
         t1.start()
-        print("Error in determining the callorie kill count. :(")
+        #print("Error in determining the callorie kill count. :(")
         return 0
         
     #else average the values and return the average weight measures
@@ -192,7 +192,7 @@ def getDistance():
         if check < time.time():
             #since we have such close distances we need to make sure
             #that the echo has not already happend, if it has, try again
-            print("distnace sensor failed")
+            #print("distnace sensor failed")
             return 10000
         else:
             start = time.time()
@@ -287,14 +287,14 @@ def main():
         
             if i == 0:
                 turnLightOff()
-                print("No candy for you fat lard!")
+                #print("No candy for you fat lard!")
             elif i == 1:
                 #creating and event to wake the screen
                 keyboard.press(Key.space)
                 keyboard.release(Key.space)
                 
                 turnLightOn()
-                print("CANDY!")
+                #print("CANDY!")
                 candy(hx, candyInst)
         
     except KeyboardInterrupt:
