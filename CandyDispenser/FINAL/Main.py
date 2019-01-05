@@ -91,7 +91,7 @@ def getWeight(hx):
 
 
     #if the difference between the two weights is less that four than 4, try again
-    if weight < .8:
+    if weight < .5:
         t1 = threading.Thread(target=popUpNotification, args=(("If nothing came out, you could try to shake me!"),))
         t1.start()
         #print("If nothing came out, you could try to shake me!")
@@ -239,7 +239,9 @@ def triggerd(hx, candyInst):
     #if Candy actually came out
     if weight != 0:
         global globalWeight
+        #subtracks current wiehgt from old wiehgt
         weightDif = weight - globalWeight
+        weightDif = abs(weightDif)
         globalWeight = weight
         calories = getCalorieCount(weightDif, candyInst)
     
