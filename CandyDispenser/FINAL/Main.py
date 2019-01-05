@@ -236,12 +236,14 @@ def selectCandy():
 def triggerd(hx, candyInst):
     #returns a postive weight that increseas as more candy is dropped
     weight = getWeight(hx)
-    global globalWeight
-    weightDif = weight - globalWeight
-    globalWeight = weight
-    calories = getCalorieCount(weightDif, candyInst)
+    
     #if Candy actually came out
     if weight != 0:
+        global globalWeight
+        weightDif = weight - globalWeight
+        globalWeight = weight
+        calories = getCalorieCount(weightDif, candyInst)
+    
         calories = str(calories)
         #record the event in the log
         t1 = threading.Thread(target=recordAction, args=((calories),))
