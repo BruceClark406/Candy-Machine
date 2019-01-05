@@ -27,7 +27,6 @@ OPEN = 10.5
 #Pop Up Notification
 WIDTHOFPOPUP = 600
 HEIGHTOFSCREEN = 200
-globalWeight = 0
 
 
 #setup the PIR sensor
@@ -88,16 +87,14 @@ def getWeight(hx):
     
     # if readings make sence, take average 
     weight = abs((val1 + val2)/2)
-
-
     #if the difference between the two weights is less that four than 4, try again
-    if weight < .8:
+    if weight < .1:
         t1 = threading.Thread(target=popUpNotification, args=(("If nothing came out, you could try to shake me!"),))
         t1.start()
         #print("If nothing came out, you could try to shake me!")
         return 0
-    elif weight > 50:
-        t1 = threading.Thread(target=popUpNotification, args=(("There is not way you ate that much candy you fat lard!"),))
+    elif weight > 150:
+        t1 = threading.Thread(target=popUpNotification, args=(("Error in determining the callorie kill count. :("),))
         t1.start()
         #print("Error in determining the callorie kill count. :(")
         return 0
@@ -233,23 +230,20 @@ def selectCandy():
     return candyInstance
 
 def triggerd(hx, candyInst):
-    #returns a postive weight that increseas as more candy is dropped
     weight = getWeight(hx)
-    
+    calories = getCalorieCount(weight, candyInst)
     #if Candy actually came out
     if weight != 0:
-        global globalWeight
-        weightDif = weight - globalWeight
-        globalWeight = weight
-        calories = getCalorieCount(weightDif, candyInst)
-    
         calories = str(calories)
         #record the event in the log
         t1 = threading.Thread(target=recordAction, args=((calories),))
         #call the pop up, to notify calorie consumption 
         t2 = threading.Thread(target=popUpNotification, args=(("You are about to consume %s calaries!" % (calories)),))
+        #scale starts at zero and then as candy dropps out goes negative
+        t3 = threading.Thread(target=hx.tare)
         t1.start()
         t2.start()
+        t3.start()
 
 
 def candy(hx, candyInst):
