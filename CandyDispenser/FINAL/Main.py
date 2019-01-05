@@ -56,7 +56,7 @@ def setUpLoad():
     # EX: (6683-0)/16 = 417.6875
     hx.set_reference_unit(418.8322)
 
-    #sensore off and then back on again
+    #sensor off and then back on again
     hx.reset()
     #zeros the scale
     hx.tare()
@@ -70,7 +70,7 @@ def getWeight(hx):
     val = val1 - val2
     val = abs(val)
 
-    #if the difference between both readings is greater than 30, something has gone wrong
+    #if the difference between both readings is greater than 10, something has gone wrong
     #making sure the two numbers we pulled from the load cell are reasonable
     i = 0
     while (val > 10):
@@ -88,24 +88,7 @@ def getWeight(hx):
     
     # if readings make sence, take average 
     weight = abs((val1 + val2)/2)
-
-
-    #if the difference between the two weights is less that four than 4, try again
-    if weight < .5:
-        t1 = threading.Thread(target=popUpNotification, args=(("If nothing came out, you could try to shake me!"),))
-        t1.start()
-        #print("If nothing came out, you could try to shake me!")
-        return 0
-    elif weight > 50:
-        t1 = threading.Thread(target=popUpNotification, args=(("There is not way you ate that much candy you fat lard!"),))
-        t1.start()
-        #print("Error in determining the callorie kill count. :(")
-        return 0
-        
-    #else average the values and return the average weight measures
-    else:
-        return weight
-
+    return weight
 
 def popUpNotification(output):
     popup = tk.Tk()
@@ -235,16 +218,25 @@ def selectCandy():
 def triggerd(hx, candyInst):
     #returns a postive weight that increseas as more candy is dropped
     weight = getWeight(hx)
+
+    global globalWeight
+    #subtracts current weight from old weight
+    weightDif = weight - globalWeight
+    weightDif = abs(weightDif)
+    globalWeight = weight
     
-    #if Candy actually came out
-    if weight != 0:
-        global globalWeight
-        #subtracks current wiehgt from old wiehgt
-        weightDif = weight - globalWeight
-        weightDif = abs(weightDif)
-        globalWeight = weight
+    #if the difference between the two weights is less that four than 4, try again
+    if weightDif < .5:
+        t1 = threading.Thread(target=popUpNotification, args=(("If nothing came out, you could try to shake me!"),))
+        t1.start()
+        #print("If nothing came out, you could try to shake me!")
+    elif weightDif > 50:
+        t1 = threading.Thread(target=popUpNotification, args=(("There is not way you ate that much candy you fat lard!"),))
+        t1.start()
+        #print("Error in determining the callorie kill count. :(")
+    #if a measurable amount of candy actually came out
+    else:
         calories = getCalorieCount(weightDif, candyInst)
-    
         calories = str(calories)
         #record the event in the log
         t1 = threading.Thread(target=recordAction, args=((calories),))
