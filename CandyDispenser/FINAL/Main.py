@@ -28,6 +28,8 @@ OPEN = 10.5
 WIDTHOFPOPUP = 600
 HEIGHTOFSCREEN = 200
 
+globalweight = 0
+
 
 #setup the PIR sensor
 GPIO.setwarnings(False)
@@ -87,6 +89,8 @@ def getWeight(hx):
     
     # if readings make sence, take average 
     weight = abs((val1 + val2)/2)
+
+
     #if the difference between the two weights is less that four than 4, try again
     if weight < .1:
         t1 = threading.Thread(target=popUpNotification, args=(("If nothing came out, you could try to shake me!"),))
@@ -231,6 +235,9 @@ def selectCandy():
 
 def triggerd(hx, candyInst):
     weight = getWeight(hx)
+    global globalweight
+    weight = globalweight - weight
+    globalweight = weight
     calories = getCalorieCount(weight, candyInst)
     #if Candy actually came out
     if weight != 0:
@@ -243,7 +250,7 @@ def triggerd(hx, candyInst):
         t3 = threading.Thread(target=hx.tare)
         t1.start()
         t2.start()
-        t3.start()
+        #t3.start()
 
 
 def candy(hx, candyInst):
