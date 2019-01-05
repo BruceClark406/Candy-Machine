@@ -24,14 +24,14 @@ def animate(i):
     for i in range(7):
         y_posInt[dayOfWeek - i] = 7 - i
 
-    #calaroies per day (y axis)
+    #calories per day (y axis)
     performance = [0,0,0,0,0,0,0]
     graph_data = open('record.txt','r').read()
 
     #grabbing line from file
     lines = graph_data.split('\n')
 
-    #calculting date 7 days ago
+    #calculating date 7 days ago
     cutOffDate = datetime.now() - timedelta(days = 7)
     
     for line in lines:

@@ -22,7 +22,7 @@ class CandySelection:
         master.title("Candy Selection")
         master.geometry("300x150")
 
-        #list of bottons
+        #list of buttons
         buttons = []
         for key in self.CANDY:
             button = (Button(master, text=str(key), width = 15, command=lambda a=key: self.setCandy(a)))

@@ -49,17 +49,18 @@ def setUpLoad():
     hx = HX711(DT, SCH)
     hx.set_reading_format("LSB", "MSB")
     
-    # HOW TO CALCULATE THE REFFERENCE UNIT
+    # HOW TO CALCULATE THE REFERENCE UNIT
     # Set reference unit to 1 below and run the program
     #record the average output with nothing on the LOAD CELL (PREOUT) and then put a known weight (ACTUALWEIGHT) on the load cell and record the number(POSTOUT)
-    #then stop the porgram and change the ref number below to (POSTOUT-PREOUT)/ACTUALWEIGHT
+    #then stop the program and change the ref number below to (POSTOUT-PREOUT)/ACTUALWEIGHT
     # EX: (6683-0)/16 = 417.6875
     hx.set_reference_unit(418.8322)
 
     #sensor off and then back on again
     hx.reset()
-    #zeros the scale
-    hx.tare()
+
+    global globalWeight
+    globalWeight = getWeight(hx)
     
     return hx
 
@@ -142,7 +143,7 @@ def moveServo():
     
     #duty cycle of 7.5, this is the neutral postion
     #2.5 and 12.5 are the extremes
-    #must give the srevo enough time to fully rotate
+    #must give the servo enough time to fully rotate
     
     p.start(OPEN)
     
@@ -183,7 +184,7 @@ def getDistance():
         else:
             start = time.time()
 
-    #recieving the echo
+    #receiving the echo
     while GPIO.input(ECHO) == True:
         end = time.time()
     
@@ -195,7 +196,7 @@ def getDistance():
         distance = sigTime / .000058 #inches: .000148
         return distance
     else:
-        #we know that start was missed, recurive call untill we get value
+        #we know that start was missed, recursive call until we get value
         return getDistance()
 
 def getDistanceAverage():
@@ -231,9 +232,9 @@ def triggerd(hx, candyInst):
         t1.start()
         #print("If nothing came out, you could try to shake me!")
     elif weightDif > 50:
-        t1 = threading.Thread(target=popUpNotification, args=(("There is not way you ate that much candy you fat lard!"),))
+        t1 = threading.Thread(target=popUpNotification, args=(("There is no way you ate that much candy, you fat lard!"),))
         t1.start()
-        #print("Error in determining the callorie kill count. :(")
+        #print("Error in determining the calorie kill count. :(")
     #if a measurable amount of candy actually came out
     else:
         calories = getCalorieCount(weightDif, candyInst)
@@ -247,7 +248,7 @@ def triggerd(hx, candyInst):
 
 
 def candy(hx, candyInst):
-    #sets a time for 15 seconds one the PIR sensor is triggerd
+    #sets a time for 15 seconds once the PIR sensor is triggered
     timeOut = time.time() + 15
 
     while time.time() < timeOut:
@@ -279,7 +280,7 @@ def main():
     
     try:
         while True:
-            #only checks sesnor every .5 seconds
+            #only checks sensor every .5 seconds
             time.sleep(.5)
 
             #pir input
@@ -287,7 +288,7 @@ def main():
         
             if i == 0:
                 turnLightOff()
-                #print("No candy for you fat lard!")
+                #print("No candy for you, fat lard!")
             elif i == 1:
                 #creating and event to wake the screen
                 keyboard.press(Key.space)
