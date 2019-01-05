@@ -236,9 +236,9 @@ def selectCandy():
 def triggerd(hx, candyInst):
     weight = getWeight(hx)
     global globalweight
-    weight = globalweight - weight
+    weightDif = globalweight - weight
     globalweight = weight
-    calories = getCalorieCount(weight, candyInst)
+    calories = getCalorieCount(weightDif, candyInst)
     #if Candy actually came out
     if weight != 0:
         calories = str(calories)
