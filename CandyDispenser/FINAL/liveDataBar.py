@@ -30,11 +30,19 @@ def animate(i):
 
     #grabbing line from file
     lines = graph_data.split('\n')
-
+    #graph_data.close()
     #calculating date 7 days ago
-    cutOffDate = datetime.now() - timedelta(days = 7)
+
+    #makes sure not to delete the calories in the middle of the day
+    #want to track everything for the past 6 days + the hours in today
+    now = datetime.now()
+    lastWeek = 144 + now.hour
+    print(lastWeek)
+    cutOffDate = now - timedelta(hours = lastWeek)
+    print(cutOffDate)
     
-    for line in lines:
+    #reading the file from back to front
+    for line in reversed(list(open("record.txt"))):
         if len(line) > 1:
             #split up the line
             singleLine = line.split(" ")
@@ -47,6 +55,12 @@ def animate(i):
                 #grab the week day "Thursday"
                 dayNum = dayDict[singleLine[2]]
                 performance[dayNum] += int(singleLine[7])
+            #once we have hit this else statement, we are beyond the cutoff date
+            else:
+                break
+            
+            
+
     plt.xticks(y_posInt, y_pos, rotation=30)
     #plt.bar(x value of bar graph, height of bar graph)
     plt.bar(y_posInt, performance, color=("#4286f4"), align='center')

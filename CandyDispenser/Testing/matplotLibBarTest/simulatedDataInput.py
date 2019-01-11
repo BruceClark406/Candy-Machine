@@ -1,11 +1,9 @@
 import time
-import random
+
 
 def inputFunc():
-    number = random.randrange(10,100)
-    time.sleep(10)
+    number = input("Give me a string: ")
     return number
-
 
 def writeToFile(number):
     f = open("record.txt", "a")
@@ -13,13 +11,10 @@ def writeToFile(number):
             time.strftime("%I:%M:%S %p ") + "Number: " + number + "\n")
     f.close()
 
+
+
 def main():
     while True:
         number = inputFunc()
         writeToFile(number)
-
-if __name__ == "__main__":
-    main()
-
-
-
+main()

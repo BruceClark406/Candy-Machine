@@ -14,32 +14,35 @@ dayDict = {"Monday" : 0,
          "Friday" : 4,
          "Saturday" : 5,
          "Sunday" : 6}
-
-
-        
-#def animate(i):
+    
 def animate(i):
     #returns the week day as a number (monday = 0)
     dayOfWeek = datetime.today().weekday()
     y_pos = ("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday")
-    y_posInt = [1,2,3,4,5,6,7]
     #x axis
-    y_posInt = [5,6,7,1,2,3,4]
+    y_posInt = [1,2,3,4,5,6,7]
     for i in range(7):
         y_posInt[dayOfWeek - i] = 7 - i
 
-
-    #calaroies per day (y axis)
+    #calories per day (y axis)
     performance = [0,0,0,0,0,0,0]
     graph_data = open('record.txt','r').read()
 
     #grabbing line from file
     lines = graph_data.split('\n')
+    #graph_data.close()
+    #calculating date 7 days ago
 
-    #calculting date 7 days ago
-    cutOffDate = datetime.now() - timedelta(days = 7)
+    #makes sure not to delete the calories in the middle of the day
+    #want to track everything for the past 6 days + the hours in today
+    now = datetime.now()
+    lastWeek = 144 + now.hour
+    print(lastWeek)
+    cutOffDate = now - timedelta(hours = lastWeek)
+    print(cutOffDate)
     
-    for line in lines:
+    #reading the file from back to front
+    for line in reversed(list(open("record.txt"))):
         if len(line) > 1:
             #split up the line
             singleLine = line.split(" ")
@@ -52,12 +55,16 @@ def animate(i):
                 #grab the week day "Thursday"
                 dayNum = dayDict[singleLine[2]]
                 performance[dayNum] += int(singleLine[7])
-    
+            #once we have hit this else statement, we are beyond the cutoff date
+            else:
+                break
+            
+            
 
-    
-    plt.xticks(y_posInt, y_pos, rotation=40)
-    #plt.bar(x value, height)
+    plt.xticks(y_posInt, y_pos, rotation=30)
+    #plt.bar(x value of bar graph, height of bar graph)
     plt.bar(y_posInt, performance, color=("#4286f4"), align='center')
+
             
 def setUpBar():
     fig = plt.figure()
