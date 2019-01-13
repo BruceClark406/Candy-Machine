@@ -3,6 +3,7 @@ import matplotlib.pyplot as plt; plt.rcdefaults()
 import numpy as np
 import matplotlib.pyplot as plt
 import time
+from matplotlib import style
 
 from datetime import datetime, timedelta
 
@@ -15,7 +16,7 @@ dayDict = {"Monday" : 0,
          "Saturday" : 5,
          "Sunday" : 6}
     
-def animate(i):
+def animate(a):
     #returns the week day as a number (monday = 0)
     dayOfWeek = datetime.today().weekday()
     y_pos = ("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday")
@@ -28,18 +29,15 @@ def animate(i):
     performance = [0,0,0,0,0,0,0]
     graph_data = open('record.txt','r').read()
 
-    #grabbing line from file
-    lines = graph_data.split('\n')
-    #graph_data.close()
+    graph_data.split('\n')
+    
     #calculating date 7 days ago
 
     #makes sure not to delete the calories in the middle of the day
     #want to track everything for the past 6 days + the hours in today
     now = datetime.now()
     lastWeek = 144 + now.hour
-    print(lastWeek)
     cutOffDate = now - timedelta(hours = lastWeek)
-    print(cutOffDate)
     
     #reading the file from back to front
     for line in reversed(list(open("record.txt"))):
@@ -58,24 +56,26 @@ def animate(i):
             #once we have hit this else statement, we are beyond the cutoff date
             else:
                 break
-            
-            
-
     plt.xticks(y_posInt, y_pos, rotation=30)
     #plt.bar(x value of bar graph, height of bar graph)
-    plt.bar(y_posInt, performance, color=("#4286f4"), align='center')
-
-            
-def setUpBar():
-    fig = plt.figure()
+    return plt.bar(y_posInt, performance, color=("#4286f4"), align='center')
     
+    
+def setUpBar():
+    
+    #style.use("dark_background")
+    #style.use("classic")
+    #style.use("grayscale")
+    #style.use("ggplot")
+    style.use("seaborn-dark")
+    #style.use("seaborn-darkgrid")
+    fig = plt.figure()
     plt.ylabel('Calories')
     #changes the space at the botton of the graph for the x labels
     plt.gcf().subplots_adjust(bottom=0.15)
-
     plt.title('Calories by Weekday')
     fig.canvas.set_window_title('Consumption Of Calories')
-    ani = animation.FuncAnimation(fig, animate, interval=3000)
+    ani = animation.FuncAnimation(fig, animate, interval=3000, blit=True)
     plt.show()
 
 
