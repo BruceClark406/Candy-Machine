@@ -4,6 +4,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import time
 from matplotlib import style
+
 from datetime import datetime, timedelta
 
 
@@ -55,14 +56,10 @@ def animate(a):
             #once we have hit this else statement, we are beyond the cutoff date
             else:
                 break
-    #clear the axis on the graph
-    plt.cla()
     plt.xticks(y_posInt, y_pos, rotation=30)
-    plt.ylim(0,1000)
     #plt.bar(x value of bar graph, height of bar graph)
-    return plt.bar(y_posInt, performance, color=("#4286f4"), align='center')
-    
-    
+    plt.bar(y_posInt, performance, color=("#4286f4"), align='center')
+
 def setUpBar():
     
     #style.use("dark_background")
@@ -76,7 +73,6 @@ def setUpBar():
     #changes the space at the botton of the graph for the x labels
     plt.gcf().subplots_adjust(bottom=0.15)
     plt.title('Calories by Weekday')
-    
     fig.canvas.set_window_title('Consumption Of Calories')
     ani = animation.FuncAnimation(fig, animate, interval=5000, blit=True)
     plt.show()

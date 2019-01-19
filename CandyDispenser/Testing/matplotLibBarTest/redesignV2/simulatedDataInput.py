@@ -3,7 +3,7 @@ import random
 
 def inputFunc():
     #number = random.randrange(10,100)
-    number = 100
+    number = 10
     time.sleep(5)
     return str(number)
 

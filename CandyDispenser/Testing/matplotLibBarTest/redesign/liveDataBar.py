@@ -1,9 +1,11 @@
 import matplotlib.animation as animation
-import matplotlib.pyplot as plt; plt.rcdefaults()
+import matplotlib.pyplot as plt
 import numpy as np
 import matplotlib.pyplot as plt
 import time
+import threading
 from matplotlib import style
+
 from datetime import datetime, timedelta
 
 
@@ -15,17 +17,31 @@ dayDict = {"Monday" : 0,
          "Saturday" : 5,
          "Sunday" : 6}
     
-def animate(a):
+
+
+y_pos = ("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday")
+
+y_posInt = [1,2,3,4,5,6,7]
+
+def update():
+    
+    #x axis
+    global y_pos
+    global y_posInt
+    performance = [0,0,0,0,0,0,0]
+
+
+
     #returns the week day as a number (monday = 0)
     dayOfWeek = datetime.today().weekday()
-    y_pos = ("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday")
-    #x axis
-    y_posInt = [1,2,3,4,5,6,7]
+
+    
+    
     for i in range(7):
         y_posInt[dayOfWeek - i] = 7 - i
 
     #calories per day (y axis)
-    performance = [0,0,0,0,0,0,0]
+    
     graph_data = open('record.txt','r').read()
 
     graph_data.split('\n')
@@ -55,12 +71,10 @@ def animate(a):
             #once we have hit this else statement, we are beyond the cutoff date
             else:
                 break
-    #clear the axis on the graph
-    plt.cla()
     plt.xticks(y_posInt, y_pos, rotation=30)
-    plt.ylim(0,1000)
     #plt.bar(x value of bar graph, height of bar graph)
-    return plt.bar(y_posInt, performance, color=("#4286f4"), align='center')
+    
+    plt.bar(y_posInt, performance, color=("#4286f4"), align='center')
     
     
 def setUpBar():
@@ -71,15 +85,22 @@ def setUpBar():
     #style.use("ggplot")
     style.use("seaborn-dark")
     #style.use("seaborn-darkgrid")
+
+
+
     fig = plt.figure()
     plt.ylabel('Calories')
     #changes the space at the botton of the graph for the x labels
     plt.gcf().subplots_adjust(bottom=0.15)
     plt.title('Calories by Weekday')
-    
     fig.canvas.set_window_title('Consumption Of Calories')
-    ani = animation.FuncAnimation(fig, animate, interval=5000, blit=True)
-    plt.show()
+    #ani = animation.FuncAnimation(fig, animate, interval=3000, blit=True)
+    
+    t1 = threading.Thread(target=lambda: plt.show)
+
+    t1.start()
+    
+    
 
 
 if __name__ == "__main__":
