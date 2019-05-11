@@ -23,7 +23,7 @@ def popUpNotification(output):
 
 
 if __name__ == "__main__":
-    calories = 4
+    calories = 35
     #output = ("You are about to consume %s calaries!" % (calories))
     t1 = threading.Thread(target=popUpNotification, args=(("You are about to consume %s calaries!" % (calories)),))
     t1.start()
