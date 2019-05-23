@@ -35,9 +35,12 @@ def animate(a):
     #makes sure not to delete the calories in the middle of the day
     #want to track everything for the past 6 days + the hours in today
     now = datetime.now()
+    now = now.replace(hour=0, minute=0, second=0, microsecond=0)
     lastWeek = 144 + now.hour
     cutOffDate = now - timedelta(hours = lastWeek)
-    
+
+
+
     #reading the file from back to front
     for line in reversed(list(open("record.txt"))):
         if len(line) > 1:
@@ -48,7 +51,7 @@ def animate(a):
             numberDate = singleLine[1].split("/")
             
             # if date in folder is greater than the cuttOff date, include it in graph
-            if datetime(int(numberDate[2]), int(numberDate[0]), int(numberDate[1]))  > cutOffDate:
+            if datetime(int(numberDate[2]), int(numberDate[0]), int(numberDate[1]))  >= cutOffDate:
                 #grab the week day "Thursday"
                 dayNum = dayDict[singleLine[2]]
                 performance[dayNum] += int(singleLine[7])
