@@ -16,10 +16,10 @@ Date: 05/09/2019 Thursday Time: 01:04:25 PM Calories: 55
 Date: 05/10/2019 Friday Time: 01:04:25 PM Calories: 55
 Date: 05/12/2019 Sunday Time: 10:36:06 AM Calories: 50
 Date: 05/13/2019 Monday Time: 10:36:06 AM Calories: 100
-Date: 05/14/2019 Tuesday Time: 10:36:06 AM Calories: 150
-Date: 05/15/2019 Wednesday Time: 10:36:06 AM Calories: 200
-Date: 05/16/2019 Thursday Time: 10:36:06 AM Calories: 250
-Date: 05/17/2019 Friday Time: 10:36:06 AM Calories: 300
-Date: 05/20/2019 Monday Time: 10:36:06 AM Calories: 660
-Date: 05/21/2019 Tuesday Time: 10:36:06 AM Calories: 714
-Date: 05/22/2019 Wednesday Time: 10:36:06 AM Calories: 515
+Date: 06/11/2019 Tuesday Time: 10:36:06 AM Calories: 150
+Date: 06/12/2019 Wednesday Time: 10:36:06 AM Calories: 200
+Date: 06/13/2019 Thursday Time: 10:36:06 AM Calories: 250
+Date: 06/14/2019 Friday Time: 10:36:06 AM Calories: 300
+Date: 06/15/2019 Saturday Time: 10:36:06 AM Calories: 660
+Date: 06/16/2019 Sunday Time: 10:36:06 AM Calories: 714
+Date: 06/17/2019 Monday Time: 10:36:06 AM Calories: 800

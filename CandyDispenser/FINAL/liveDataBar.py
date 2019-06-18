@@ -87,6 +87,7 @@ def animate(a):
     if max(performance) > highestNumber or dayChange == True:
         highestNumber = max(performance)
         plt.draw()
+        print("Had to redraw")
     return plt.bar(yPosInt, performance, color=("#4286f4"), align='center')
     
     
