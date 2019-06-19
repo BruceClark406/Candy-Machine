@@ -48,7 +48,6 @@ def animate(a):
         dayChange = True
     yPosInt = yPosInt
 
-
     #calories per day (y axis)
     graph_data = open('record.txt','r').read()
     graph_data.split('\n')

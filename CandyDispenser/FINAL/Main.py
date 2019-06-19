@@ -296,7 +296,7 @@ def main():
                 
                 turnLightOn()
                 #print("CANDY!")
-                candy(hx, candyInst)
+                #candy(hx, candyInst)
         
     except KeyboardInterrupt:
         print("\nThe session has been terminated...")
