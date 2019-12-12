@@ -172,7 +172,7 @@ def triggerd(candyInst):
     #record the event in the log
     t1 = threading.Thread(target=recordAction, args=((str(10)),))
     #call the pop up, to notify calorie consumption 
-    t2 = threading.Thread(target=popUpNotification,))
+    t2 = threading.Thread(target=popUpNotification,)
     t1.start()
     t2.start()
     #Tell the graph to do a hard refresh
