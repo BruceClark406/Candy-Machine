@@ -70,7 +70,7 @@ def setUpBar():
     plt.ylabel('Calories')
     #changes the space at the botton of the graph for the x labels
     plt.gcf().subplots_adjust(bottom=0.15)
-    ani = animation.FuncAnimation(fig, animate, interval=5000, blit=blit_bool)
+    ani = animation.FuncAnimation(fig, animate, interval=10000, blit=blit_bool)
     plt.show()
 
 

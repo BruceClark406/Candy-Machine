@@ -7,6 +7,8 @@ from candyTypes import CandySelection
 import liveDataBar
 import threading
 from pynput.keyboard import Key, Controller
+from joke.jokes import *
+from random import choice
 
 SERVO = 27
 PIR = 17
@@ -45,10 +47,11 @@ def cleanAndExit():
 
 
 
-def popUpNotification(output):
+def popUpNotification():
+    joke = (choice([geek, icanhazdad, chucknorris, icndb])())
     popup = tk.Tk()
-    popup.wm_title("Calorie Kill Count")
-    label = ttk.Label(popup, text=output, font = ("Verdana", 12))
+    popup.wm_title("Joke")
+    label = ttk.Label(popup, text=joke, font = ("Verdana", 12))
     label.pack(side="top", fill="x", padx=20, pady=20)
 
     #after 3 second destroy the alert
@@ -56,7 +59,7 @@ def popUpNotification(output):
     widthOfScreen = (popup.winfo_screenwidth() /2) - (WIDTHOFPOPUP/2)
     heightOfScreen = (popup.winfo_screenheight() /2) - (HEIGHTOFSCREEN/2)
 
-    popup.after(3000, lambda: popup.destroy())
+    popup.after(5000, lambda: popup.destroy())
     popup.geometry("%dx%d+%d+%d" % (WIDTHOFPOPUP, HEIGHTOFSCREEN, widthOfScreen, heightOfScreen))
     popup.mainloop()
 
@@ -169,7 +172,7 @@ def triggerd(candyInst):
     #record the event in the log
     t1 = threading.Thread(target=recordAction, args=((str(10)),))
     #call the pop up, to notify calorie consumption 
-    t2 = threading.Thread(target=popUpNotification, args=(("joked goes here"),))
+    t2 = threading.Thread(target=popUpNotification,))
     t1.start()
     t2.start()
     #Tell the graph to do a hard refresh
