@@ -6,7 +6,7 @@ import sys
 #need class HX711 from file hx711
 from hx711 import HX711
 from candyTypes import CandySelection
-from liveDataBar import *
+import liveDataBar
 import threading
 from pynput.keyboard import Key, Controller
 
@@ -245,6 +245,8 @@ def triggerd(hx, candyInst):
         t2 = threading.Thread(target=popUpNotification, args=(("You are about to consume %s calaries!" % (calories)),))
         t1.start()
         t2.start()
+        #Tell the graph to do a hard refresh
+        liveDataBar.blit_bool = False
 
 
 def candy(hx, candyInst):
@@ -266,7 +268,7 @@ def main():
     turnLightOff()
 
     #start an ongoing threat to set up/refresh bar garaph
-    task = threading.Thread(target=setUpBar)
+    task = threading.Thread(target=liveDataBar.setUpBar)
     task.start()
     
     #set up load cell
@@ -296,7 +298,7 @@ def main():
                 
                 turnLightOn()
                 #print("CANDY!")
-                #candy(hx, candyInst)
+                candy(hx, candyInst)
         
     except KeyboardInterrupt:
         print("\nThe session has been terminated...")

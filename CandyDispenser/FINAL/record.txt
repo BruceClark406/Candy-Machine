@@ -27,5 +27,5 @@ Date: 12/7/2019 Saturday Time: 10:36:06 AM Calories: 50
 Date: 12/8/2019 Sunday Time: 10:36:06 AM Calories: 50
 Date: 12/9/2019 Monday Time: 10:36:06 AM Calories: 100
 Date: 12/10/2019 Tuesday Time: 10:36:06 AM Calories: 150
-Date: 12/11/2019 Wednesday Time: 10:36:06 AM Calories: 200
-Date: 12/12/2019 Thursday Time: 10:36:06 AM Calories: 300
+Date: 12/11/2019 Wednesday Time: 10:36:06 AM Calories: 100
+Date: 12/12/2019 Thursday Time: 10:36:06 AM Calories: 220
