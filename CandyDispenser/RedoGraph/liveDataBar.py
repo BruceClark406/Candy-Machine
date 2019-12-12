@@ -18,7 +18,7 @@ dayDict = {"Monday" : 0,
 firstWeekDay = 8
 yPosInt = [1,2,3,4,5,6,7]
 highestNumber = 0
-blit
+blit_bool = False
 
 def animate(a):
     global firstWeekDay
