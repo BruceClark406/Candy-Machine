@@ -3,7 +3,6 @@ import tkinter as tk
 from tkinter import ttk
 import time
 import sys
-#need class HX711 from file hx711
 from candyTypes import CandySelection
 import liveDataBar
 import threading
@@ -223,7 +222,7 @@ def main():
                 
                 turnLightOn()
                 #print("CANDY!")
-                candy(hx, candyInst)
+                candy(candyInst)
         
     except KeyboardInterrupt:
         print("\nThe session has been terminated...")
