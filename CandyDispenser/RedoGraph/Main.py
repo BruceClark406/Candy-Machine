@@ -297,8 +297,8 @@ def main():
                 keyboard.release(Key.space)
                 
                 turnLightOn()
-                #print("CANDY!")
-                #candy(hx, candyInst)
+                print("CANDY!")
+                candy(hx, candyInst)
         
     except KeyboardInterrupt:
         print("\nThe session has been terminated...")
