@@ -53,6 +53,7 @@ def update():
 def animate(a):
     global blit_bool
     if blit_bool == False:
+        print("updated")
         plt.cla()
         update()
         plt.xticks(yPosInt, y_pos, rotation=30)
