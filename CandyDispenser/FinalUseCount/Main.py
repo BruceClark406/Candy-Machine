@@ -6,9 +6,10 @@ import sys
 from candyTypes import CandySelection
 import liveDataBar
 import threading
+import Jokes
 from pynput.keyboard import Key, Controller
 from joke.jokes import *
-from random import choice
+
 
 SERVO = 27
 PIR = 17
@@ -48,10 +49,8 @@ def cleanAndExit():
 
 
 def popUpNotification():
-    joke = (choice([geek, icanhazdad, chucknorris, icndb])())
     popup = tk.Tk()
-    popup.wm_title("Joke")
-    label = ttk.Label(popup, text=joke, font = ("Verdana", 12))
+    label = ttk.Label(popup, text=Jokes.get_joke(), font = ("Verdana", 12))
     label.pack(side="top", fill="x", padx=20, pady=20)
 
     #after 3 second destroy the alert
