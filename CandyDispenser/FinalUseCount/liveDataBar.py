@@ -57,8 +57,8 @@ def animate(a):
         plt.cla()
         update()
         plt.xticks(yPosInt, y_pos, rotation=30)
-    blit_bool = True
-    return plt.bar(yPosInt, performance, color=("#4286f4"), align='center')
+        blit_bool = True
+        return plt.bar(yPosInt, performance, color=("#4286f4"), align='center')
 
 
 
