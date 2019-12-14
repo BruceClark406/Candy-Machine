@@ -50,7 +50,7 @@ def cleanAndExit():
 
 def popUpNotification():
     popup = tk.Tk()
-    label = ttk.Label(popup, text=Jokes.get_joke(), font = ("Verdana", 12))
+    label = ttk.Label(popup, text=Jokes.get_joke(), font = ("Verdana", 12), wraplength=WIDTHOFPOPUP-50)
     label.pack(side="top", fill="x", padx=20, pady=20)
 
     #after 3 second destroy the alert
