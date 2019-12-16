@@ -28,7 +28,6 @@ OPEN = 10.5
 #Pop Up Notification
 WIDTHOFPOPUP = 600
 HEIGHTOFSCREEN = 200
-globalWeight = 0
 
 
 #setup the PIR sensor
@@ -58,7 +57,7 @@ def popUpNotification():
     widthOfScreen = (popup.winfo_screenwidth() /2) - (WIDTHOFPOPUP/2)
     heightOfScreen = (popup.winfo_screenheight() /2) - (HEIGHTOFSCREEN/2)
 
-    popup.after(5000, lambda: popup.destroy())
+    popup.after(7000, lambda: popup.destroy())
     popup.geometry("%dx%d+%d+%d" % (WIDTHOFPOPUP, HEIGHTOFSCREEN, widthOfScreen, heightOfScreen))
     popup.mainloop()
 
