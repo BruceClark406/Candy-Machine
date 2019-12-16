@@ -49,6 +49,7 @@ def cleanAndExit():
 
 def popUpNotification():
     popup = tk.Tk()
+    popup.title("Joke")
     label = ttk.Label(popup, text=Jokes.get_joke(), font = ("Verdana", 12), wraplength=WIDTHOFPOPUP-50)
     label.pack(side="top", fill="x", padx=20, pady=20)
 
